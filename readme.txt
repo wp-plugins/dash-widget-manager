@@ -1,10 +1,10 @@
 === Plugin Name ===
-Contributors: foomagoo, Jeff Sterup
+Contributors: foomagoo
 Donate link: 
 Tags: dashboard widget manager, manage dashboard widgets, dashboard widgets, hide dashboard widgets, hide update messages, hide core update, widgets by role
 Requires at least: 3.1
 Tested up to: 3.3.1
-Stable tag: 0.1
+Stable tag: 0.2
 
 This plugin allows you to do the following:
 1. Hide dashboard widgets from non admin users.
@@ -34,7 +34,13 @@ A. No.  It only hides the messages that appear letting you know an update is ava
 
 == Changelog ==
 
+= 0.2 =
+removed white space after plugin header and conditional that may cause activaion issues.
+
 = 0.1 =
 Initial version.
 
 == Upgrade Notice ==
+
+= 0.2 =
+removed white space after plugin header and conditional that may cause activaion issues.

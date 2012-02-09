@@ -1,5 +1,6 @@
 <?php 
 $goodWidgets = get_option($wpdb->prefix.'dash_widget_manager_good_widgets');
+if (!is_array($goodWidgets)) { $goodWidgets = array(); }
 $coreUpdateMessage = get_option($wpdb->prefix.'dash_widget_manager_core_update_message');
 $pluginUpdateMessage = get_option($wpdb->prefix.'dash_widget_manager_plugin_update_message');
 ?>

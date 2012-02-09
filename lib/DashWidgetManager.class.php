@@ -33,8 +33,8 @@ class DashWidgetManager {
 		global $wpdb;
 		if (!current_user_can('manage_options')) {
 			$goodWidgets = get_option($wpdb->prefix.'dash_widget_manager_good_widgets');
-			if (!is_array($goodWidgets)) {
-				$goodWidgets = array();
+			if (!is_array($registered_meta_boxes)) {
+				$registered_meta_boxes = array('normal'=>array('core'=>array()), 'side'=>array('core'=>array()));
 			}
 			for($i=0; $i < sizeof($widgets); $i++) {
 				if (!in_array($widgets[$i], $goodWidgets)) {
@@ -58,8 +58,8 @@ class DashWidgetManager {
 			require_once(ABSPATH . "/wp-admin/includes/dashboard.php");
 			$dashWidgets = array();
 			$registered_meta_boxes = get_option($wpdb->prefix.'dash_widget_manager_registered_widgets');
-			if (!is_array($registered_meta_boxes)) {
-				$registered_meta_boxes = array();
+			if (!is_array($registered_meta_boxes['normal']['core'])) {
+				$registered_meta_boxes = array('normal'=>array('core'=>array()), 'side'=>array('core'=>array()));
 			}
 			foreach ($registered_meta_boxes['normal']['core'] as $key=>$data) {
 				$widgetTitle = preg_replace("/Configure/", "", strip_tags($data['title']));
@@ -107,17 +107,23 @@ class DashWidgetManager {
 
 
 	function hide_plugin_update() {
-		?>
-		<style type="text/css">
-			.plugin-update {
-				display: none;
-			}
-		</style>
-		<?php
+		if (!current_user_can('administrator')) {
+			?>
+			<style type="text/css">
+				.plugin-update {
+					display: none;
+				}
+			</style>
+			<?php
+		}
 	}
 
 	function hide_core_update($message) {
-		return null;
+		if (current_user_can('administrator')) {
+			return $message;
+		} else {
+			return null;
+		}
 	}
 
 }
