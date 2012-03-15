@@ -1,6 +1,10 @@
 <?php
 class DashWidgetManager {
-	function __construct() {
+	var $absPath;
+	var $urlPath;
+	function __construct($absPath, $urlPath) {
+		$this->absPath = $absPath;
+		$this->urlPath = $urlPath;
 	}
 
 	function manage_dash_setup() {
@@ -15,15 +19,19 @@ class DashWidgetManager {
 				$goodWidgets = array();
 			}
 			
-			foreach ($wp_meta_boxes['dashboard']['normal']['core'] as $widget) {
-				if (!in_array($widget['id'], $goodWidgets)) {
-					unset($wp_meta_boxes['dashboard']['normal']['core'][$widget['id']]);
+			if (sizeof($wp_meta_boxes['dashboard']['normal']['core']) > 0) {
+				foreach ($wp_meta_boxes['dashboard']['normal']['core'] as $widget) {
+					if (!in_array($widget['id'], $goodWidgets)) {
+						unset($wp_meta_boxes['dashboard']['normal']['core'][$widget['id']]);
+					}
 				}
 			}
 
-			foreach ($wp_meta_boxes['dashboard']['side']['core'] as $widget) {
-				if (!in_array($widget['id'], $goodWidgets)) {
-					unset($wp_meta_boxes['dashboard']['side']['core'][$widget['id']]);
+			if (sizeof($wp_meta_boxes['dashboard']['side']['core']) > 0) {
+				foreach ($wp_meta_boxes['dashboard']['side']['core'] as $widget) {
+					if (!in_array($widget['id'], $goodWidgets)) {
+						unset($wp_meta_boxes['dashboard']['side']['core'][$widget['id']]);
+					}
 				}
 			}
 		}
@@ -53,7 +61,7 @@ class DashWidgetManager {
 
 
 	function options_page() {
-		global $wpdb, $DWMAbsPath;
+		global $wpdb;
 		if (current_user_can('manage_options')) {
 			require_once(ABSPATH . "/wp-admin/includes/dashboard.php");
 			$dashWidgets = array();
@@ -98,7 +106,7 @@ class DashWidgetManager {
 			}
 			
 
-			include($DWMAbsPath.'/tpl/options.php');
+			include($this->absPath.'/tpl/options.php');
 		} else {
 			echo "You dont have permissions to access this page.";
 		}
